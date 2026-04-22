@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crypto_pulse/core/constants/app_colors.dart';
+import 'package:crypto_pulse/core/util/animations.dart';
 import 'package:crypto_pulse/features/dashboard/presentation/widgets/balance_card.dart';
 import 'package:crypto_pulse/features/dashboard/presentation/widgets/promo_banner.dart';
 import 'package:crypto_pulse/features/dashboard/presentation/widgets/coin_list_item.dart';
@@ -35,25 +36,34 @@ class DashboardScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const BalanceCard(),
+                const FadeInSlide(
+                  delay: Duration(milliseconds: 100),
+                  child: BalanceCard(),
+                ),
                 const SizedBox(height: 20),
-                const PromoBanner(),
+                const FadeInSlide(
+                  delay: Duration(milliseconds: 300),
+                  child: PromoBanner(),
+                ),
                 const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Market Highlights',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
-                          ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text('See all'),
-                    ),
-                  ],
+                FadeInSlide(
+                  delay: const Duration(milliseconds: 500),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Market Highlights',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textPrimary,
+                            ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('See all'),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 12),
                 ListView.builder(
@@ -62,7 +72,11 @@ class DashboardScreen extends ConsumerWidget {
                   itemCount: coins.length,
                   itemBuilder: (context, index) {
                     final coin = coins[index];
-                    return CoinListItem(coin: coin);
+                    return FadeInSlide(
+                      delay: Duration(milliseconds: 600 + (index * 50)),
+                      duration: const Duration(milliseconds: 500),
+                      child: CoinListItem(coin: coin),
+                    );
                   },
                 ),
               ],

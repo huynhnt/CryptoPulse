@@ -35,11 +35,14 @@ class CoinListItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            CircleAvatar(
+          Hero(
+            tag: 'coin-logo-${coin.id}',
+            child: CircleAvatar(
               backgroundColor: AppColors.divider,
               radius: 20,
               backgroundImage: NetworkImage(coin.image),
             ),
+          ),
             const SizedBox(width: 12),
             Expanded(
               flex: 3,

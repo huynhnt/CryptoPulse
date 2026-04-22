@@ -25,9 +25,12 @@ lib/
   - `primary`: #00FF41 (Matrix Green) - dùng cho các chỉ số tăng
   - `secondary`: #FF3B30 (Alert Red) - dùng cho các chỉ số giảm
   - `surface`: #1E2329 (Grey Surface) - dùng cho các cards
+- **Animation System**:
+  - **Entrance Animations**: Sử dụng `FadeInSlide` widget với cơ chế Staggered delay (so le) để tạo hiệu ứng các thành phần trượt lên lần lượt.
+  - **Hero Navigation**: Biểu tượng Logo của đồng coin sẽ bay từ Dashboard sang màn hình chi tiết bằng `Hero` widget.
 - **Key UI Elements**:
   - **Glassmorphism Cards**: Nền thẻ hơi mờ với hiệu ứng blur.
-  - **Neon Glowing Charts**: Biểu đồ có hiệu ứng phát sáng mờ.
+  - **Neon Glowing Charts**: Biểu đồ có hiệu ứng phát sáng mờ tích hợp trong danh sách (Sparklines) và màn hình chi tiết.
   - **Haptic Feedback**: Rung nhẹ khi chuyển đổi giữa các tab hoặc nhấn vào coin.
 
 ## External Services
