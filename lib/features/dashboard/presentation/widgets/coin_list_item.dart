@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:crypto_pulse/core/constants/app_colors.dart';
 import 'package:crypto_pulse/features/dashboard/domain/coin_entity.dart';
 import 'package:crypto_pulse/features/dashboard/presentation/widgets/mini_chart.dart';
@@ -15,6 +16,7 @@ class CoinListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPositive = coin.priceChangePercentage24h >= 0;
+    final priceFormat = NumberFormat('#,##0.00');
 
     return InkWell(
       onTap: () {
@@ -35,14 +37,14 @@ class CoinListItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-          Hero(
-            tag: 'coin-logo-${coin.id}',
-            child: CircleAvatar(
-              backgroundColor: AppColors.divider,
-              radius: 20,
-              backgroundImage: NetworkImage(coin.image),
+            Hero(
+              tag: 'coin-logo-${coin.id}',
+              child: CircleAvatar(
+                backgroundColor: AppColors.divider,
+                radius: 20,
+                backgroundImage: NetworkImage(coin.image),
+              ),
             ),
-          ),
             const SizedBox(width: 12),
             Expanded(
               flex: 3,
@@ -81,7 +83,7 @@ class CoinListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '\$ ${coin.currentPrice.toStringAsFixed(2)}',
+                    '\$ ${priceFormat.format(coin.currentPrice)}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppColors.textPrimary,

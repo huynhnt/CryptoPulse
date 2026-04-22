@@ -18,3 +18,20 @@ final topCoinsProvider = FutureProvider<List<Coin>>((ref) async {
   final repository = ref.watch(coinRepositoryProvider);
   return repository.getTopCoins();
 });
+
+// Provider lưu từ khóa tìm kiếm
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
+// Provider trả về danh sách coin đã được lọc
+final filteredCoinsProvider = Provider<AsyncValue<List<Coin>>>((ref) {
+  final coinsAsync = ref.watch(topCoinsProvider);
+  final query = ref.watch(searchQueryProvider).toLowerCase();
+
+  return coinsAsync.whenData((coins) {
+    if (query.isEmpty) return coins;
+    return coins.where((coin) {
+      return coin.name.toLowerCase().contains(query) ||
+             coin.symbol.toLowerCase().contains(query);
+    }).toList();
+  });
+});

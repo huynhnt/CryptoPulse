@@ -9,6 +9,6 @@
 - [x] Build Coin Detail UI (Interactive Chart)
 - [x] Implement Entrance Animations (Staggered FadeIn)
 - [x] Implement Hero Navigation for Coin Logos
-- [ ] Implement Search functionality
-- [ ] Add Splash Screen
-- [ ] Final polishing and performance optimization
+- [x] Implement Search functionality
+- [x] Add Splash Screen
+- [x] Final polishing and performance optimization

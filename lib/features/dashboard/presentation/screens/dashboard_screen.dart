@@ -12,7 +12,8 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final coinsAsync = ref.watch(topCoinsProvider);
+    // Lắng nghe danh sách đã lọc thay vì danh sách gốc
+    final coinsAsync = ref.watch(filteredCoinsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -46,6 +47,26 @@ class DashboardScreen extends ConsumerWidget {
                   child: PromoBanner(),
                 ),
                 const SizedBox(height: 24),
+                // Thanh tìm kiếm mới
+                FadeInSlide(
+                  delay: const Duration(milliseconds: 400),
+                  child: TextField(
+                    onChanged: (value) => 
+                        ref.read(searchQueryProvider.notifier).state = value,
+                    decoration: InputDecoration(
+                      hintText: 'Search your favorite coin...',
+                      prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
+                      filled: true,
+                      fillColor: AppColors.surface,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
                 FadeInSlide(
                   delay: const Duration(milliseconds: 500),
                   child: Row(
@@ -66,19 +87,27 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: coins.length,
-                  itemBuilder: (context, index) {
-                    final coin = coins[index];
-                    return FadeInSlide(
-                      delay: Duration(milliseconds: 600 + (index * 50)),
-                      duration: const Duration(milliseconds: 500),
-                      child: CoinListItem(coin: coin),
-                    );
-                  },
-                ),
+                if (coins.isEmpty)
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 40),
+                      child: Text('No coins found'),
+                    ),
+                  )
+                else
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: coins.length,
+                    itemBuilder: (context, index) {
+                      final coin = coins[index];
+                      return FadeInSlide(
+                        delay: Duration(milliseconds: 600 + (index * 50)),
+                        duration: const Duration(milliseconds: 500),
+                        child: CoinListItem(coin: coin),
+                      );
+                    },
+                  ),
               ],
             ),
           ),

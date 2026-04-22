@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:crypto_pulse/core/constants/app_colors.dart';
 import 'package:crypto_pulse/core/util/animations.dart';
 import 'package:crypto_pulse/features/dashboard/domain/coin_entity.dart';
@@ -12,6 +13,7 @@ class CoinDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPositive = coin.priceChangePercentage24h >= 0;
+    final priceFormat = NumberFormat('#,##0.00');
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +51,7 @@ class CoinDetailScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '\$ ${coin.currentPrice.toStringAsFixed(2)}',
+                        '\$ ${priceFormat.format(coin.currentPrice)}',
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
@@ -142,8 +144,8 @@ class CoinDetailScreen extends StatelessWidget {
               child: Column(
                 children: [
                   _buildStatRow('Market Cap Rank', '#${coin.id.length}'),
-                  _buildStatRow('High 24h', '\$ ${(coin.currentPrice * 1.02).toStringAsFixed(2)}'),
-                  _buildStatRow('Low 24h', '\$ ${(coin.currentPrice * 0.98).toStringAsFixed(2)}'),
+                  _buildStatRow('High 24h', '\$ ${priceFormat.format(coin.currentPrice * 1.02)}'),
+                  _buildStatRow('Low 24h', '\$ ${priceFormat.format(coin.currentPrice * 0.98)}'),
                 ],
               ),
             ),
