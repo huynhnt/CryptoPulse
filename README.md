@@ -11,6 +11,7 @@
   - **Hero Transitions**: Hiệu ứng Logo "bay" mượt mà giữa các màn hình.
 - **Interactive Charts**: Biểu đồ hình nến mini (Sparklines) ngay trong danh sách và biểu đồ chi tiết (Standard Line Chart) trong màn hình Coin Detail.
 - **Smart Search**: Tìm kiếm coin theo tên hoặc ký hiệu (BTC, ETH...) theo thời gian thực.
+- **Wallet Hub (New)**: Quản lý đa tài khoản ví, hiển thị phân bổ tài sản, nạp tiền giả lập và lưu trữ lịch sử giao dịch.
 - **Splash Screen**: Màn hình chào ấn tượng với hiệu ứng Scale và hiệu ứng phát sáng.
 - **Professional Formatting**: Hiển thị tiền tệ chuẩn quốc tế sử dụng thư viện `intl`.
 
