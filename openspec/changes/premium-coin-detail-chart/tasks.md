@@ -36,3 +36,4 @@
 - [x] 5.9 Triển khai Smart Price Formatting: Hiển thị nhiều số thập phân hơn cho coin giá trị thấp.
 - [x] 5.10 Kích hoạt Nhãn trục dọc (Left Titles) để cung cấp mốc giá đối chiếu cho đường lưới.
 - [x] 5.11 Tối ưu mật độ lưới: Cấu hình `interval` để chỉ hiển thị từ 3-5 vùng giá đối chiếu trên trục dọc.
+- [x] 5.12 Định dạng nhãn trục dọc rút gọn (Compact Formatting): Thêm ký hiệu `$`, rút gọn hàng nghìn thành `K` và triệu thành `M`.

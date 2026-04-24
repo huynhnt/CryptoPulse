@@ -291,10 +291,22 @@ class _CoinDetailScreenState extends ConsumerState<CoinDetailScreen> {
                                     reservedSize: 45,
                                     interval: horizontalInterval,
                                     getTitlesWidget: (value, meta) {
+                                      String text;
+                                      if (value >= 1000000) {
+                                        text = '\$${(value / 1000000).toStringAsFixed(1)}M';
+                                      } else if (value >= 1000) {
+                                        text = '\$${(value / 1000).toStringAsFixed(1)}K';
+                                      } else if (value >= 1) {
+                                        text = '\$${value.toStringAsFixed(1)}';
+                                      } else {
+                                        // Dành cho coin giá cực thấp
+                                        text = '\$${value.toStringAsFixed(4)}';
+                                      }
+
                                       return SideTitleWidget(
                                         meta: meta,
                                         child: Text(
-                                          priceFormat.format(value),
+                                          text,
                                           style: const TextStyle(
                                             color: AppColors.textSecondary,
                                             fontSize: 9,
