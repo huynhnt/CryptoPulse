@@ -36,8 +36,31 @@ class CoinRepositoryImpl implements CoinRepository {
 
   @override
   Future<Coin> getCoinDetail(String id) async {
-    // Để đơn giản, chúng ta có thể tái sử dụng getTopCoins hoặc gọi endpoint detail riêng
-    // Hiện tại chúng ta tập trung vào danh sách Dashboard trước
-    throw UnimplementedError();
+    // Để đơn giản, chúng ta lấy từ danh sách top hoặc gọi detail
+    final coins = await getTopCoins();
+    return coins.firstWhere((element) => element.id == id);
+  }
+
+  @override
+  Future<List<double>> getMarketChart(String id, String days) async {
+    try {
+      final response = await _dio.get(
+        'https://api.coingecko.com/api/v3/coins/$id/market_chart',
+        queryParameters: {
+          'vs_currency': 'usd',
+          'days': days,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> prices = response.data['prices'];
+        // prices là List của [timestamp, price]
+        return prices.map((p) => (p[1] as num).toDouble()).toList();
+      } else {
+        throw Exception('Failed to load market chart');
+      }
+    } catch (e) {
+      throw Exception('Error fetching market chart: $e');
+    }
   }
 }
