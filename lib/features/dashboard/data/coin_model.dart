@@ -29,9 +29,16 @@ class CoinModel extends Coin {
       low24h: json['low_24h'] != null ? (json['low_24h'] as num).toDouble() : null,
       totalSupply: json['total_supply'] != null ? (json['total_supply'] as num).toDouble() : null,
       totalVolume: json['total_volume'] != null ? (json['total_volume'] as num).toDouble() : null,
-      sparkline: json['sparkline_in_7d'] != null 
-          ? (json['sparkline_in_7d']['price'] as List).map((e) => (e as num).toDouble()).toList()
-          : null,
+      sparkline: (() {
+        final data = json['sparkline_in_7d'];
+        if (data == null) return null;
+        if (data is List) {
+          return data.map((e) => (e as num).toDouble()).toList();
+        } else if (data is Map && data['price'] != null) {
+          return (data['price'] as List).map((e) => (e as num).toDouble()).toList();
+        }
+        return null;
+      })(),
     );
   }
 }

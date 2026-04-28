@@ -8,11 +8,13 @@ class CoinRepositoryImpl implements CoinRepository {
 
   CoinRepositoryImpl(this._dio);
 
+  static const String baseUrl = 'http://localhost:8088';
+
   @override
   Future<List<Coin>> getTopCoins({int page = 1, int perPage = 20}) async {
     try {
       final response = await _dio.get(
-        'https://api.coingecko.com/api/v3/coins/markets',
+        '$baseUrl/coins',
         queryParameters: {
           'vs_currency': 'usd',
           'order': 'market_cap_desc',
@@ -45,7 +47,7 @@ class CoinRepositoryImpl implements CoinRepository {
   Future<List<double>> getMarketChart(String id, String days) async {
     try {
       final response = await _dio.get(
-        'https://api.coingecko.com/api/v3/coins/$id/market_chart',
+        '$baseUrl/coins/$id/chart',
         queryParameters: {
           'vs_currency': 'usd',
           'days': days,
