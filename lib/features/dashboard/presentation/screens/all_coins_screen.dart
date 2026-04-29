@@ -30,7 +30,8 @@ class _AllCoinsScreenState extends ConsumerState<AllCoinsScreen> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
       ref.read(allCoinsNotifierProvider.notifier).fetchNextPage();
     }
   }
@@ -44,53 +45,41 @@ class _AllCoinsScreenState extends ConsumerState<AllCoinsScreen> {
         title: const Text('All Coins'),
         backgroundColor: AppColors.background,
         elevation: 0,
-      ),
-      body: state.isInitialLoading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
-          : state.error != null && state.coins.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.error_outline, color: AppColors.secondary, size: 48),
-                      const SizedBox(height: 16),
-                      Text('Error: ${state.error}', textAlign: TextAlign.center),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () => ref.read(allCoinsNotifierProvider.notifier).fetchInitialCoins(),
-                        child: const Text('Retry'),
-                      ),
-                    ],
-                  ),
-                )
-              : RefreshIndicator(
-                  onRefresh: () => ref.read(allCoinsNotifierProvider.notifier).fetchInitialCoins(),
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.all(16.0),
-                    itemCount: state.coins.length + (state.isLoadingMore ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index < state.coins.length) {
-                        return FadeInSlide(
-                          delay: Duration(milliseconds: (index % 10) * 50),
-                          duration: const Duration(milliseconds: 500),
-                          child: CoinListItem(coin: state.coins[index]),
-                        );
-                      } else {
-                        return const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 24.0),
-                          child: Center(
-                            child: CircularProgressIndicator(color: AppColors.primary),
-                          ),
-                        );
-                      }
-                    },
-                  ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search coins...',
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppColors.textSecondary,
                 ),
+                filled: true,
+                fillColor: AppColors.surface,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 0),
+              ),
+              style: const TextStyle(color: AppColors.textPrimary),
+              onChanged: (value) => ref
+                  .read(allCoinsNotifierProvider.notifier)
+                  .onSearchChanged(value),
+            ),
+          ),
+        ),
+      ),
+      body: _buildBody(state),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(
-            top: BorderSide(color: AppColors.divider.withOpacity(0.5), width: 0.5),
+            top: BorderSide(
+              color: AppColors.divider.withOpacity(0.5),
+              width: 0.5,
+            ),
           ),
         ),
         child: BottomNavigationBar(
@@ -123,6 +112,92 @@ class _AllCoinsScreenState extends ConsumerState<AllCoinsScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildBody(AllCoinsState state) {
+    if (state.isSearching) {
+      return const Center(
+        child: CircularProgressIndicator(color: AppColors.primary),
+      );
+    }
+
+    if (state.searchQuery.isNotEmpty) {
+      if (state.searchResults.isEmpty) {
+        return const Center(
+          child: Text(
+            'Không tìm thấy kết quả',
+            style: TextStyle(color: AppColors.textSecondary),
+          ),
+        );
+      }
+      return ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemCount: state.searchResults.length,
+        itemBuilder: (context, index) {
+          return FadeInSlide(
+            delay: Duration(milliseconds: (index % 10) * 50),
+            duration: const Duration(milliseconds: 500),
+            child: CoinListItem(coin: state.searchResults[index]),
+          );
+        },
+      );
+    }
+
+    if (state.isInitialLoading) {
+      return const Center(
+        child: CircularProgressIndicator(color: AppColors.primary),
+      );
+    }
+
+    if (state.error != null && state.coins.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.error_outline,
+              color: AppColors.secondary,
+              size: 48,
+            ),
+            const SizedBox(height: 16),
+            Text('Error: ${state.error}', textAlign: TextAlign.center),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => ref
+                  .read(allCoinsNotifierProvider.notifier)
+                  .fetchInitialCoins(),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: () =>
+          ref.read(allCoinsNotifierProvider.notifier).fetchInitialCoins(),
+      child: ListView.builder(
+        controller: _scrollController,
+        padding: const EdgeInsets.all(16.0),
+        itemCount: state.coins.length + (state.isLoadingMore ? 1 : 0),
+        itemBuilder: (context, index) {
+          if (index < state.coins.length) {
+            return FadeInSlide(
+              delay: Duration(milliseconds: (index % 10) * 50),
+              duration: const Duration(milliseconds: 500),
+              child: CoinListItem(coin: state.coins[index]),
+            );
+          } else {
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24.0),
+              child: Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              ),
+            );
+          }
+        },
       ),
     );
   }

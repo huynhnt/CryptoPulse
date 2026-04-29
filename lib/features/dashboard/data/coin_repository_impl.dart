@@ -48,10 +48,7 @@ class CoinRepositoryImpl implements CoinRepository {
     try {
       final response = await _dio.get(
         '$baseUrl/coins/$id/chart',
-        queryParameters: {
-          'vs_currency': 'usd',
-          'days': days,
-        },
+        queryParameters: {'vs_currency': 'usd', 'days': days},
       );
 
       if (response.statusCode == 200) {
@@ -63,6 +60,25 @@ class CoinRepositoryImpl implements CoinRepository {
       }
     } catch (e) {
       throw Exception('Error fetching market chart: $e');
+    }
+  }
+
+  @override
+  Future<List<Coin>> searchCoins(String query) async {
+    try {
+      final response = await _dio.get(
+        '$baseUrl/coins/search',
+        queryParameters: {'q': query},
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        return data.map((json) => CoinModel.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to search coins');
+      }
+    } catch (e) {
+      throw Exception('Error searching coins: $e');
     }
   }
 }
