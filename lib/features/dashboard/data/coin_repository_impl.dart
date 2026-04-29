@@ -8,7 +8,7 @@ class CoinRepositoryImpl implements CoinRepository {
 
   CoinRepositoryImpl(this._dio);
 
-  static const String baseUrl = 'http://localhost:8088';
+  static const String baseUrl = 'http://api.huylio.com';
 
   @override
   Future<List<Coin>> getTopCoins({int page = 1, int perPage = 20}) async {
