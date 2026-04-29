@@ -6,6 +6,7 @@ import 'package:crypto_pulse/features/dashboard/presentation/widgets/balance_car
 import 'package:crypto_pulse/features/dashboard/presentation/widgets/promo_banner.dart';
 import 'package:crypto_pulse/features/dashboard/presentation/widgets/coin_list_item.dart';
 import 'package:crypto_pulse/features/dashboard/presentation/providers/coin_provider.dart';
+import 'package:crypto_pulse/features/dashboard/presentation/screens/all_coins_screen.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -80,7 +81,14 @@ class DashboardScreen extends ConsumerWidget {
                             ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AllCoinsScreen(),
+                            ),
+                          );
+                        },
                         child: const Text('See all'),
                       ),
                     ],

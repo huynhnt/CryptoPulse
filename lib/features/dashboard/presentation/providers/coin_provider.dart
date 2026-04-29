@@ -16,7 +16,7 @@ final coinRepositoryProvider = Provider<CoinRepository>((ref) {
 // FutureProvider để lấy danh sách top coins
 final topCoinsProvider = FutureProvider<List<Coin>>((ref) async {
   final repository = ref.watch(coinRepositoryProvider);
-  return repository.getTopCoins();
+  return repository.getTopCoins(perPage: 10);
 });
 
 // Provider lưu từ khóa tìm kiếm
