@@ -20,3 +20,7 @@ Quy định về kiến trúc và công nghệ sử dụng trong dự án Crypto
 
 ## 4. Kiểm thử (Testing)
 - Khi hoàn thành một tính năng, PHẢI chạy lệnh `flutter test` để kiểm tra các thay đổi không phá vỡ logic cũ.
+
+## 5. Tích hợp API (API Integration)
+- Khi phát triển các tính năng gọi API, LUÔN LUÔN tham chiếu tài liệu OpenAPI chính thức của Backend tại đường dẫn: `d:\Working\AI\CryptoPulseBackend\docs\api-backend.json`.
+- Sử dụng tài liệu này (có thể mở trực tiếp hoặc import vào Apidog/Postman) để xác nhận chính xác các Endpoints, Parameters, Request Body, và cấu trúc Response Models nhằm đảm bảo đồng bộ hoàn toàn giữa ứng dụng và máy chủ.
