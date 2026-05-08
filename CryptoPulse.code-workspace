@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../CryptoPulseBackend"
+		},
+		{
+			"path": "../CryptoPulseWeb"
 		}
 	],
 	"settings": {
